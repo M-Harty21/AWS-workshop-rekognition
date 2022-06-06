@@ -34,22 +34,20 @@ export class RekogApiService {
     }
 
     try {
-      const response = await rekogClient.send(new RecognizeCelebritiesCommand(params));
-      console.log(response.CelebrityFaces?.length);
-      response.CelebrityFaces?.map(celebrity => {
-        console.log(`Name: ${celebrity.Name}`)
-        console.log(`ID: ${celebrity.Id}`)
-        console.log(`KnownGender: ${celebrity.KnownGender?.Type}`)
-      })
-      return response;
+      const rekogResponse = await rekogClient.send(new RecognizeCelebritiesCommand(params));
+      return rekogResponse.CelebrityFaces;
     } catch (err) {
       console.log("Error", err);
       return err;
     }
   }
 
-  async uploadCelebrity() {
-
+  async uploadCelebrityImage(image: any) {
+    
   }
 
 }
+function celebrity(celebrity: any, arg1: any, arg2: { return: any; }) {
+  throw new Error('Function not implemented.');
+}
+
