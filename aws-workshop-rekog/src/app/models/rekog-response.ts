@@ -5,7 +5,7 @@ export class Celebrity {
         Confidence: any
         Value: boolean
     } | undefined 
-    emotions: emotions[] | undefined
+    emotions: emotions | undefined
 }
 
 class emotions{

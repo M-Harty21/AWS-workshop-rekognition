@@ -1,3 +1,9 @@
 <button (click)="test()">Test</button>
 
-<p>  </p>
+<div>
+    <h2> Name of Celebrity: {{ celeb.name }} </h2>
+    <h2> Gender: {{ celeb.gender }} </h2>
+    <h2> Features of Celebrity: </h2>
+    <h2> - Facial Emotions {{ celeb.emotions?.Type }} || Confidence:  {{ celeb.emotions?.Confidence}}</h2>
+    <h2> - Smile Value: {{ celeb.smile?.Value }} || Confidence: {{ celeb.smile?.Confidence}} </h2>
+</div>

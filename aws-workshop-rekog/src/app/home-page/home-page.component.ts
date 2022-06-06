@@ -9,10 +9,10 @@ import { Celebrity } from '../models/rekog-response';
 })
 export class HomePageComponent implements OnInit {
   data: any;
-  celebObj: Celebrity;
+  celeb: Celebrity;
 
   constructor(private rekogAPI: RekogApiService) { 
-    this.celebObj = new Celebrity;
+    this.celeb = new Celebrity;
   }
 
   ngOnInit(): void {
@@ -21,12 +21,12 @@ export class HomePageComponent implements OnInit {
   async test(){
     this.data = await this.rekogAPI.getCelebrityData("tom-hardy.jpg");
     console.log(this.data[0]);
-    this.celebObj.name = this.data[0].Name;
-    this.celebObj.gender = this.data[0].KnownGender.Type;
-    this.celebObj.emotions = this.data[0].Face.Emotions;
-    this.celebObj.smile = this.data[0].Face.Smile;
+    this.celeb.name = this.data[0].Name;
+    this.celeb.gender = this.data[0].KnownGender.Type;
+    this.celeb.emotions = this.data[0].Face.Emotions;
+    this.celeb.smile = this.data[0].Face.Smile;
 
-    console.log(this.celebObj);
+    console.log(this.celeb.emotions);
   }
 
 }
