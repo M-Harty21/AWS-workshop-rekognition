@@ -1,11 +1,11 @@
 export class Celebrity {
     name: string | undefined
     gender: string | undefined
-    smile: {
-        Confidence: any
+    smile: { 
+        Confidence: any 
         Value: boolean
     } | undefined 
-    emotions: emotions | undefined
+    emotions: emotions[] | undefined
 }
 
 class emotions{

@@ -8,8 +8,16 @@ import { Celebrity } from '../models/rekog-response';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-  data: any;
+  data: any | undefined;
   celeb: Celebrity;
+  emotionType: any;
+  emotionConfidence: any;
+
+  // =========
+
+  selectedFiles: any = '';
+  imageSrc: string = '';
+  selectedFileToUpload: File | undefined;
 
   constructor(private rekogAPI: RekogApiService) { 
     this.celeb = new Celebrity;
@@ -18,15 +26,39 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async test(){
-    this.data = await this.rekogAPI.getCelebrityData("tom-hardy.jpg");
-    console.log(this.data[0]);
+  async getCelebrityData(){
+    
+    this.data = await this.rekogAPI.getCelebrityData(this.selectedFileToUpload?.name);
+
+    console.log("Data return: " + this.data[0]);
+
     this.celeb.name = this.data[0].Name;
     this.celeb.gender = this.data[0].KnownGender.Type;
-    this.celeb.emotions = this.data[0].Face.Emotions;
+    this.emotionType = this.data[0].Face.Emotions[0].Type;
+    this.emotionConfidence = this.data[0].Face.Emotions[0].Confidence;
     this.celeb.smile = this.data[0].Face.Smile;
+  }
 
-    console.log(this.celeb.emotions);
+  async upload(){
+    if (!this.selectedFileToUpload) {
+        alert('Please select a file first!');
+        return;
+    }
+
+    await this.rekogAPI.uploadCelebrityImage(this.selectedFileToUpload);
+  }
+
+  public selectFile(filesList: FileList | null) {
+    var reader = new FileReader();
+    const fileToUpload = filesList!.item(0);
+
+    console.log(fileToUpload!.name);
+
+    reader.readAsDataURL(fileToUpload!);
+    reader.onload = () => {
+        this.imageSrc = reader.result as string;
+    };
+    this.selectedFileToUpload = fileToUpload!;
   }
 
 }

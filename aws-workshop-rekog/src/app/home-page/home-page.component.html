@@ -1,9 +1,25 @@
-<button (click)="test()">Test</button>
+<br>
+
+<label class="btn btn-default">
+    <img [src]="imageSrc" *ngIf="imageSrc" style="width:40%">
+    <br>
+    <input type="file" (change)="selectFile($any($event.target).files)">
+</label>
+<br>
+<br>
+<button class="btn btn-success" [disabled]="!selectedFileToUpload" (click)="upload()"> Upload File </button>
+<br>
+<br>
+<h3> Wait at least for 10 seconds for the S3 bucket to be uploaded! :) </h3>
+<button class="btn btn-success" (click)="getCelebrityData()"> Get Results </button>
+
+<br>
+<br>
 
 <div>
     <h2> Name of Celebrity: {{ celeb.name }} </h2>
     <h2> Gender: {{ celeb.gender }} </h2>
     <h2> Features of Celebrity: </h2>
-    <h2> - Facial Emotions {{ celeb.emotions?.Type }} || Confidence:  {{ celeb.emotions?.Confidence}}</h2>
+    <h2> - Facial Emotions: {{ emotionType }} || Confidence: {{ emotionConfidence }} </h2>
     <h2> - Smile Value: {{ celeb.smile?.Value }} || Confidence: {{ celeb.smile?.Confidence}} </h2>
 </div>
