@@ -12,12 +12,13 @@ export class HomePageComponent implements OnInit {
   celeb: Celebrity;
   emotionType: any;
   emotionConfidence: any;
-
+  dataRecieved: boolean = false;
   // =========
 
   selectedFiles: any = '';
   imageSrc: string = '';
   selectedFileToUpload: File | undefined;
+  uploaded: boolean = false;
 
   constructor(private rekogAPI: RekogApiService) { 
     this.celeb = new Celebrity;
@@ -29,14 +30,15 @@ export class HomePageComponent implements OnInit {
   async getCelebrityData(){
     
     this.data = await this.rekogAPI.getCelebrityData(this.selectedFileToUpload?.name);
-
-    console.log("Data return: " + this.data[0]);
-
     this.celeb.name = this.data[0].Name;
     this.celeb.gender = this.data[0].KnownGender.Type;
     this.emotionType = this.data[0].Face.Emotions[0].Type;
     this.emotionConfidence = this.data[0].Face.Emotions[0].Confidence;
     this.celeb.smile = this.data[0].Face.Smile;
+
+    if(this.celeb.name != ""){
+      this.dataRecieved = true;
+    }
   }
 
   async upload(){
@@ -46,6 +48,7 @@ export class HomePageComponent implements OnInit {
     }
 
     await this.rekogAPI.uploadCelebrityImage(this.selectedFileToUpload);
+    this.uploaded = true;
   }
 
   public selectFile(filesList: FileList | null) {
@@ -59,6 +62,10 @@ export class HomePageComponent implements OnInit {
         this.imageSrc = reader.result as string;
     };
     this.selectedFileToUpload = fileToUpload!;
+  }
+
+  reload(){
+    window.location.reload();
   }
 
 }

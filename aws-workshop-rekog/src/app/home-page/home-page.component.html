@@ -1,25 +1,69 @@
-<br>
-
-<label class="btn btn-default">
-    <img [src]="imageSrc" *ngIf="imageSrc" style="width:40%">
+<div class="main-content">
     <br>
-    <input type="file" (change)="selectFile($any($event.target).files)">
-</label>
-<br>
-<br>
-<button class="btn btn-success" [disabled]="!selectedFileToUpload" (click)="upload()"> Upload File </button>
-<br>
-<br>
-<h3> Wait at least for 10 seconds for the S3 bucket to be uploaded! :) </h3>
-<button class="btn btn-success" (click)="getCelebrityData()"> Get Results </button>
-
-<br>
-<br>
-
-<div>
-    <h2> Name of Celebrity: {{ celeb.name }} </h2>
-    <h2> Gender: {{ celeb.gender }} </h2>
-    <h2> Features of Celebrity: </h2>
-    <h2> - Facial Emotions: {{ emotionType }} || Confidence: {{ emotionConfidence }} </h2>
-    <h2> - Smile Value: {{ celeb.smile?.Value }} || Confidence: {{ celeb.smile?.Confidence}} </h2>
+    <label id="img-content">
+        <img id="image" [src]="imageSrc" *ngIf="imageSrc">
+        <br>
+        <br>
+        <br>
+        <input type="file" (change)="selectFile($any($event.target).files)">
+    </label>
+    <ng-container *ngIf="!data">
+        <br>
+        <br>
+        <br>
+        <br>
+        <button class="button-style" role="button" [disabled]="!selectedFileToUpload" (click)="upload()"> Upload File </button>
+        <br>
+        <ng-container *ngIf="uploaded">
+            <p> Successfully uploaded image... </p>
+        </ng-container>
+        <br>
+        <br>
+        <button class="button-style" role="button" (click)="getCelebrityData()"> Get Results </button>
+        <br>
+        <br>
+    </ng-container>
+    <br>
+    <br>
+    <ng-container id="results" *ngIf="data">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2> Name of Celebrity </h2>
+                </div>
+                <div class="col">
+                    <h2> {{ celeb.name }} </h2>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <h2> Gender </h2>
+                </div>
+                <div class="col">
+                    <h2> {{ celeb.gender }} </h2>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <h2> Facial Emotion </h2>
+                </div>
+                <div class="col">
+                    <h2> {{ emotionType }} ( {{ emotionConfidence }}% confidence) </h2>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <h2> Smiling [True/False] </h2>
+                </div>
+                <div class="col">
+                    <h2> {{ celeb.smile?.Value }} ( {{ celeb.smile?.Confidence }}% confidence) </h2>
+                </div>
+            </div>
+            <br>
+        </div>
+        <button class="button-style" role="button" (click)="reload()"> Clear </button>
+    </ng-container>
 </div>

@@ -19,8 +19,11 @@ const bucket = 'aws-workshop-celebrity-database';
   providedIn: 'root'
 })
 export class RekogApiService {
+  success: boolean;
 
-  constructor() { }
+  constructor() { 
+    this.success = false;
+  }
 
   // Gets the celebrity data from the AWS Rekognition service
   async getCelebrityData(fileName: any) {
@@ -43,7 +46,7 @@ export class RekogApiService {
 
   async uploadCelebrityImage(file: any) {
       const contentType = file.type;
-     
+      
       const params = {
         Bucket: bucket,
         Key: file.name,
@@ -51,13 +54,16 @@ export class RekogApiService {
         ACL: 'public-read',
         ContentType: contentType
       };
-      s3Client.upload(params, function(err: any, data: any){
+
+      s3Client.upload(params, (err: any, data: any) =>{
         if (err) {
           console.log('There was an error uploading your file: ', err);
-          return false;
+          this.success = false;
+          return this.success;
         }
         console.log('Successfully uploaded file.', data);
-        return true;
+        this.success = true;
+        return this.success;
       });
   }
 
